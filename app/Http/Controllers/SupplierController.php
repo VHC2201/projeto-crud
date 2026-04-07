@@ -2,63 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET: Lista todos os fornecedores
     public function index()
     {
-        //
+        $suppliers = Supplier::all();
+        return view('suppliers.index', compact('suppliers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // GET: Mostra o formulário de criação
     public function create()
     {
-        //
+        return view('suppliers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // POST: Salva o novo fornecedor no banco
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:suppliers,email',
+        ]);
+
+        Supplier::create($request->all());
+        return redirect()->route('suppliers.index')->with('success', 'Fornecedor criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // GET: Mostra o formulário de edição
+    public function edit(Supplier $supplier)
     {
-        //
+        return view('suppliers.edit', compact('supplier'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // PUT/PATCH: Atualiza o fornecedor no banco
+    public function update(Request $request, Supplier $supplier)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:suppliers,email,' . $supplier->id,
+        ]);
+
+        $supplier->update($request->all());
+        return redirect()->route('suppliers.index')->with('success', 'Fornecedor atualizado!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // DELETE: Remove do banco
+    public function destroy(Supplier $supplier)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $supplier->delete();
+        return redirect()->route('suppliers.index')->with('success', 'Fornecedor excluído!');
     }
 }
