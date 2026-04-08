@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
     <h2>Gestão de Produtos</h2>
+    <a href="{{ route('dashboard') }}" class="btn btn-outline-dark me-2">Voltar ao Painel</a>
     <a href="{{ route('products.create') }}" class="btn btn-primary">+ Novo Produto</a>
 </div>
 
@@ -51,3 +53,4 @@
     </table>
 </div>
 @endsection
+

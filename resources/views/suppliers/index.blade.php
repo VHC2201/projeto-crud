@@ -3,6 +3,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Fornecedores</h2>
+    <a href="{{ route('dashboard') }}" class="btn btn-outline-dark me-2">Voltar ao Painel</a>
     <a href="{{ route('suppliers.create') }}" class="btn btn-success">Novo Fornecedor</a>
 </div>
 
